@@ -49,13 +49,18 @@ class MockKeyGemini(Gemini):
     def api_client(self) -> Client:
         from google.genai import Client
 
+        if os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "True":
+            return Client()
         return Client(api_key=self.api_key)
 
     @cached_property
     def _live_api_client(self) -> Client:
         from google.genai import Client
 
+        if os.getenv("GOOGLE_GENAI_USE_VERTEXAI") == "True":
+            return Client()
         return Client(api_key=self.api_key)
+
 
 
 # Thread-safety lock to prevent race conditions during redemption checks (Tampering Mitigation)
